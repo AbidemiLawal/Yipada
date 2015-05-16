@@ -1,0 +1,24 @@
+"Name"    = 'Simple C# GRAMMAR'
+"Author"  = 'ADEKOYA ADEKUNLE ROTIMI'
+"Version" = '1.0' 
+"About"   = 'This is a very simple grammar designed for parsing the source programs in my Msc Project'
+
+"Case Sensitive" = True
+"Start Symbol"   = <E>
+
+{String Ch 1} = {Printable} - ['']
+{String Ch 2} = {Printable} - ["]
+
+Id            = {Letter}{AlphaNumeric}*
+
+! String allows either single or double quotes
+
+
+
+<E> ::= <E> '+' <T>|<E> '-' <T>| <T>
+<T>::= <T> '*' <F>
+<T> ::= <T> '/' <F>
+<T> ::= <F>
+<F> ::= Id
+<F> ::= '(' <E> ')'
+     

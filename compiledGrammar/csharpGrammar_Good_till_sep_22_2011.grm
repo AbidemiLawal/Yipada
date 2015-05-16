@@ -1,0 +1,93 @@
+"Name"    = 'Simple C# GRAMMAR'
+"Author"  = 'ADEKOYA ADEKUNLE ROTIMI'
+"Version" = '1.0' 
+"About"   = 'This is a very simple grammar designed for parsing the source programs in my Msc Project'
+
+"Case Sensitive" = True
+"Start Symbol"   = <Program>
+
+{String Ch 1} = {Printable} - ['']
+{String Ch 2} = {Printable} - ["]
+
+Id            = {Letter}{AlphaNumeric}*
+
+! String allows either single or double quotes
+
+StringLiteral = ''   {String Ch 1}* ''
+              | '"'  {String Ch 2}* '"'
+
+
+NumberLiteral = {Digit}+('.'{Digit}+)?
+
+<Program> ::= <Var-declarations><Class-Definitions>|<Class-Definitions>
+
+<Var-declarations> ::= <Var-declaration><Var-declarations> | <Var-declaration> 
+
+<Var-declaration> ::= <Basic-Types> ID ';' 
+
+<Basic-Types> ::= 'int'| 'float' |'string' | 'boolean' 
+
+<Class-Definitions> ::=<Class-definition><Class-Definitions> 
+                         |  <Class-definition>
+
+<Statements> ::= <Statement> <Statements>
+               | <Statement>
+ 
+<Statement>  ::= <Var-declaration>
+               | <Print-statement> 
+               | <Read-statement>  
+               |  ID '=' <Expression> ';'
+               | while '(' <Expression> ')' '{' <Statements> '}'
+               | if '(' <Expression> ')' '{' <Statements> '}'
+               | if '(' <Expression> ')' '{' <Statements>  '}' else '{' <Statements> '}'
+               
+               
+<Print-statement> ::= 'Console.WriteLine'<Expression> ';'
+
+<Read-statement> ::= 'Console.ReadLine' ID ';'
+
+ 
+<Expression>   ::= <Expression> '>'  <Add Exp> 
+                 | <Expression> '<'  <Add Exp> 
+                 | <Expression> '<=' <Add Exp> 
+                 | <Expression> '>=' <Add Exp>
+                 | <Expression>  '==' <Add Exp>
+                 | <Expression> '!=' <Add Exp>
+                 | <Expression> '&&' <Add Exp>
+                 | <Expression> '||' <Add Exp>
+                 | <Add Exp>  
+
+
+<Add Exp>      ::= <Add Exp> '+' <Mult Exp>
+                 | <Add Exp> '-' <Mult Exp>
+                 | <Mult Exp> 
+
+<Mult Exp>    ::= <Mult Exp> '*' <Unary Exp> 
+                | <Mult Exp> '/' <Unary Exp> 
+                | <Unary Exp> 
+
+
+<Unary Exp>  ::= '--' <Value> | '++' <Value>  |  <Value> '--'| <Value> '++'
+                | <Value> 
+
+<Value>       ::= ID           
+                | StringLiteral
+                | NumberLiteral
+                | '(' <Expression> ')'
+
+<Class-definition> ::= <Access-Modifier> 'class'  ID '{'  <Class-body> '}'  
+
+<Class-body> ::= <Var-declarations> <Method-Definitions> | <Method-Definitions> | <Var-declarations> |
+
+<Method-Definitions> ::= <Method-Definition><Method-Definitions> |<Method-Definition>
+
+<Method-Definition> ::= <Access-Modifier> <Return-Type> ID '(' <Parameter-List> ')' '{' <Statements> '}'
+
+<Parameter-List> ::= <Parameter>','<Parameter-List> | <Parameter> | 
+<Parameter> ::= <Basic-Types> ID 
+
+<Return-Type> ::= <Basic-Types> | 'void'
+
+<Access-Modifier> ::= 'public'|'private'
+
+

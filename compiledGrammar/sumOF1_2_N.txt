@@ -1,0 +1,16 @@
+
+public class SumOf12N {
+ public int main(){  
+ int N;
+ int sum ;
+sum = 0 ;
+Console.WriteLine "Enter N " ;
+Console.ReadLine N ;
+while ( N >  0 ) {
+  sum = sum + N ;
+ N = N - 1 ;
+}
+ Console.WriteLine " Sum = " ;
+ Console.WriteLine sum ;
+}
+}

@@ -1,0 +1,98 @@
+"Name"    = 'Simple C# GRAMMAR'
+"Author"  = 'ADEKOYA ADEKUNLE ROTIMI'
+"Version" = '1.0' 
+"About"   = 'This is a very simple grammar designed for parsing the source programs in my Msc Project'
+
+"Case Sensitive" = True
+"Start Symbol"   = <Program>
+
+{String Ch 1} = {Printable} - ['']
+{String Ch 2} = {Printable} - ["]
+
+Id            = {Letter}{AlphaNumeric}*
+
+! String allows either single or double quotes
+
+StringLiteral = ''   {String Ch 1}* ''
+              | '"'  {String Ch 2}* '"'
+
+
+NumberLiteral = {Digit}+('.'{Digit}+)?
+
+<Program> ::= <Var-declarations><Class-Definitions>|<Class-Definitions>
+
+<Var-declarations> ::= <Var-declaration><Var-declarations> | <Var-declaration> 
+
+<Var-declaration> ::= <Basic-Types> ID ';' 
+
+<Basic-Types> ::= 'int'| 'float' |'string' | 'bool' 
+
+<Class-Definitions> ::=<Class-definition><Class-Definitions> 
+                         |  <Class-definition>
+
+<Statements> ::= <Statement> <Statements>
+               | <Statement>
+ 
+<Statement>  ::= <Var-declaration>
+               | <Print-statement> 
+               | <Read-statement>  
+               |  ID '=' <Expression> ';'  
+               | while '(' <Logic-Exp> ')' '{' <Statements> '}'
+               | if '(' <Logic-Exp> ')' '{' <Statements> '}'
+               | if '(' <Logic-Exp> ')' '{' <Statements>  '}' else '{' <Statements> '}'
+               | <Access-Modifier> 'class' <Class-definition>
+               
+<Print-statement> ::= 'Console.WriteLine'<Expression> ';'
+
+<Read-statement> ::= 'Console.ReadLine' ID ';' 
+                    |  ID  '=' 'Console.ReadLine' '(' ')' ';'  
+
+<Logic-Exp> ::= <Logic-Exp> '&&' <Expression> | <Logic-Exp> '||' <Expression>  | <Expression>
+
+
+<Expression>   ::= <Expression> '>'  <Add Exp> 
+                 | <Expression> '<'  <Add Exp> 
+                 | <Expression> '<=' <Add Exp> 
+                 | <Expression> '>=' <Add Exp>
+                 | <Expression> '==' <Add Exp>
+                 | <Expression> '!=' <Add Exp>
+                 | <ArithMetic Exp> 
+
+<ArithMetic Exp> ::= <ArithMetic Exp> '%' <Add Exp>   | <Add Exp>  
+<Add Exp>      ::= <Add Exp> '+' <Mult Exp>
+                 | <Add Exp> '-' <Mult Exp>
+                 | <Mult Exp> 
+
+<Mult Exp>    ::= <Mult Exp> '*' <Unary Exp> 
+                | <Mult Exp> '/' <Unary Exp> 
+                | <Unary Exp> 
+
+
+<Unary Exp>  ::= '--' <Value> | '++' <Value> 
+                | <Value> 
+
+<Value>       ::= ID           
+                | StringLiteral 
+                | NumberLiteral
+                | '(' <Expression> ')' 
+
+<Class-definition> ::= <Access-Modifier> 'class'  <Class-definition-name> '{'  <Class-body> '}'  
+
+<Class-definition-name> ::= ID
+
+<Class-body> ::= <Var-declarations> <Method-Definitions> | <Method-Definitions> | <Var-declarations>
+
+<Method-Definitions> ::= <Method-Definition><Method-Definitions> |<Method-Definition>
+
+<Method-Definition> ::= <Access-Modifier> <Return-Type> <Method-def-name> '(' <Parameter-List> ')' '{' <Statements> '}'
+
+<Method-def-name> ::= ID
+
+<Parameter-List> ::= <Parameter>','<Parameter-List> | <Parameter> | 
+<Parameter> ::= <Basic-Types> ID 
+
+<Return-Type> ::= 'int'| 'float' |'string' | 'bool' | 'void'
+
+<Access-Modifier> ::= 'public'|'private'
+
+
